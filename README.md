@@ -3,10 +3,10 @@
 ## Init
 
 ```bash
-mkdir <PROJECT NAME>
-cd <PROJECT NAME>
+mkdir project-nrf-dishwasher-sign
+cd project-nrf-dishwasher-sign
 docker run --rm -u $(id -u):$(id -g) -v $(pwd):/new -w /new zephyrprojectrtos/ci:v0.26.6 \
-        bash -c "west init -m https://github.com/fgervais/<PROJECT NAME>.git . && west update"
+        bash -c "west init -m https://github.com/fgervais/project-nrf-dishwasher-sign.git . && west update"
 ```
 
 ## Build
@@ -51,7 +51,3 @@ docker compose -f docker-compose.yml -f docker-compose.device.yml \
 cd application
 pyocd flash -e sector -t nrf52840 -f 4000000 build/zephyr/zephyr.hex
 ```
-
-# Hardware
-
-https://github.com/fgervais/<PROJECT NAME>_hardware
