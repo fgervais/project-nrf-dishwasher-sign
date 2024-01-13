@@ -39,15 +39,13 @@ int main(void)
 
 static bool event_handler(const struct app_event_header *eh)
 {
-	int ret;
 	const struct button_event *evt;
 
 	if (is_button_event(eh)) {
 		evt = cast_button_event(eh);
 
 		if (evt->pressed) {
-			LOG_INF("Pin Toggle");
-			ret = gpio_pin_toggle_dt(&led);
+			LOG_INF("Button pressed");
 		}
 	}
 
