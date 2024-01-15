@@ -1,3 +1,5 @@
+#include <lvgl.h>
+#include <zephyr/drivers/display.h>
 #include <zephyr/drivers/gpio.h>
 #include <zephyr/kernel.h>
 #include <zephyr/pm/device.h>
@@ -19,6 +21,9 @@ int main(void)
 #if defined(CONFIG_APP_SUSPEND_CONSOLE)
 	const struct device *cons = DEVICE_DT_GET(DT_CHOSEN(zephyr_console));
 #endif
+	const struct device *display_dev = DEVICE_DT_GET(DT_CHOSEN(zephyr_display));
+	lv_obj_t *hello_world_label;
+
 
 	if (app_event_manager_init()) {
 		LOG_ERR("Event manager not initialized");
@@ -33,6 +38,14 @@ int main(void)
 #if defined(CONFIG_APP_SUSPEND_CONSOLE)
 	pm_device_action_run(cons, PM_DEVICE_ACTION_SUSPEND);
 #endif
+
+	hello_world_label = lv_label_create(lv_scr_act());
+
+	lv_label_set_text(hello_world_label, "Hello world!");
+	lv_obj_align(hello_world_label, LV_ALIGN_CENTER, 0, 0);
+
+	lv_task_handler();
+	display_blanking_off(display_dev);
 
 	return 0;
 }
