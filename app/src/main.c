@@ -34,13 +34,13 @@ int main(void)
 	uint32_t events;
 
 
+	LOG_INF("\n\n🚀 MAIN START (%s) 🚀\n", APP_VERSION_FULL);
+
 	if (app_event_manager_init()) {
 		LOG_ERR("Event manager not initialized");
 	} else {
 		module_set_state(MODULE_STATE_READY);
 	}
-
-	LOG_INF("\n\n🚀 MAIN START (%s) 🚀\n", APP_VERSION_FULL);
 
 	LOG_INF("🎉 init done 🎉");
 
