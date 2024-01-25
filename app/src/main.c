@@ -17,13 +17,21 @@ LOG_MODULE_REGISTER(main, LOG_LEVEL_DBG);
 #include <app_version.h>
 
 
+#define SCREEN_TOGGLE_EVENT		BIT(0)
+
+
+static K_EVENT_DEFINE(screen_events);
+
+
 int main(void)
 {
 #if defined(CONFIG_APP_SUSPEND_CONSOLE)
 	const struct device *cons = DEVICE_DT_GET(DT_CHOSEN(zephyr_console));
 #endif
 	const struct device *display_dev = DEVICE_DT_GET(DT_CHOSEN(zephyr_display));
+
 	lv_obj_t *hello_world_label;
+	uint32_t events;
 
 
 	if (app_event_manager_init()) {
@@ -50,6 +58,14 @@ int main(void)
 
 	thread_analyzer_print();
 
+	while (1) {
+		LOG_INF("💤 waiting for events");
+		events = k_event_wait(&screen_events,
+				(SCREEN_TOGGLE_EVENT),
+				true,
+				K_SECONDS(CONFIG_APP_MAIN_LOOP_PERIOD_SEC));
+	}
+
 	return 0;
 }
 
@@ -61,7 +77,8 @@ static bool event_handler(const struct app_event_header *eh)
 		evt = cast_button_event(eh);
 
 		if (evt->pressed) {
-			LOG_INF("Button pressed");
+			LOG_INF("🛎️  Button pressed");
+			k_event_post(&screen_events, SCREEN_TOGGLE_EVENT);
 		}
 	}
 
