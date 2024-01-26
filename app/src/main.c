@@ -1,6 +1,7 @@
 #include <lvgl.h>
 #include <zephyr/drivers/display.h>
 #include <zephyr/drivers/gpio.h>
+#include <zephyr/drivers/watchdog.h>
 #include <zephyr/kernel.h>
 #include <zephyr/pm/device.h>
 #include <zephyr/debug/thread_analyzer.h>
@@ -16,6 +17,8 @@ LOG_MODULE_REGISTER(main, LOG_LEVEL_DBG);
 
 #include <app_version.h>
 
+#include "init.h"
+
 
 #define SCREEN_TOGGLE_EVENT		BIT(0)
 
@@ -25,6 +28,7 @@ static K_EVENT_DEFINE(screen_events);
 
 int main(void)
 {
+	const struct device *wdt = DEVICE_DT_GET(DT_NODELABEL(wdt0));
 #if defined(CONFIG_APP_SUSPEND_CONSOLE)
 	const struct device *cons = DEVICE_DT_GET(DT_CHOSEN(zephyr_console));
 #endif
@@ -32,7 +36,10 @@ int main(void)
 
 	lv_obj_t *hello_world_label;
 	uint32_t events;
+	int main_wdt_chan_id = -1;
 
+
+	init_watchdog(wdt, &main_wdt_chan_id);
 
 	LOG_INF("\n\n🚀 MAIN START (%s) 🚀\n", APP_VERSION_FULL);
 
@@ -64,6 +71,9 @@ int main(void)
 				(SCREEN_TOGGLE_EVENT),
 				true,
 				K_SECONDS(CONFIG_APP_MAIN_LOOP_PERIOD_SEC));
+
+		LOG_INF("🦴 feed watchdog");
+		wdt_feed(wdt, main_wdt_chan_id);
 	}
 
 	return 0;
