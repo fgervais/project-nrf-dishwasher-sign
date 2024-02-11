@@ -37,6 +37,7 @@ int main(void)
 	lv_obj_t *hello_world_label;
 	uint32_t events;
 	int main_wdt_chan_id = -1;
+	bool screen_is_ready = true;
 
 
 	init_watchdog(wdt, &main_wdt_chan_id);
@@ -57,8 +58,7 @@ int main(void)
 
 	hello_world_label = lv_label_create(lv_scr_act());
 
-	// lv_label_set_text(hello_world_label, "Ready!");
-	lv_label_set_text(hello_world_label, "Cleaning...");
+	lv_label_set_text(hello_world_label, "Ready!");
 	lv_obj_align(hello_world_label, LV_ALIGN_CENTER, 0, -10);
 
 	// lv_obj_clean(lv_scr_act());
@@ -74,6 +74,19 @@ int main(void)
 				(SCREEN_TOGGLE_EVENT),
 				true,
 				K_SECONDS(CONFIG_APP_MAIN_LOOP_PERIOD_SEC));
+
+		if (events & SCREEN_TOGGLE_EVENT) {
+			if (screen_is_ready) {
+				lv_label_set_text(hello_world_label, "Cleaning...");
+				screen_is_ready = false;
+			}
+			else {
+				lv_label_set_text(hello_world_label, "Ready!");
+				screen_is_ready = true;
+			}
+
+			lv_task_handler();
+		}
 
 		LOG_INF("🦴 feed watchdog");
 		wdt_feed(wdt, main_wdt_chan_id);
