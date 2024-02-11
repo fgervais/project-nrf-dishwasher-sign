@@ -34,10 +34,11 @@ int main(void)
 #endif
 	const struct device *display_dev = DEVICE_DT_GET(DT_CHOSEN(zephyr_display));
 
-	lv_obj_t *hello_world_label;
+	lv_obj_t *label;
 	uint32_t events;
 	int main_wdt_chan_id = -1;
-	bool screen_is_ready = true;
+	int screen_text_pos = 0;
+	const char *label_texts[] = {"Ready!", "Cleaning..."};
 
 
 	init_watchdog(wdt, &main_wdt_chan_id);
@@ -56,10 +57,10 @@ int main(void)
 	pm_device_action_run(cons, PM_DEVICE_ACTION_SUSPEND);
 #endif
 
-	hello_world_label = lv_label_create(lv_scr_act());
+	label = lv_label_create(lv_scr_act());
 
-	lv_label_set_text(hello_world_label, "Ready!");
-	lv_obj_align(hello_world_label, LV_ALIGN_CENTER, 0, -10);
+	lv_label_set_text(label, label_texts[screen_text_pos]);
+	lv_obj_align(label, LV_ALIGN_CENTER, 0, -10);
 
 	// lv_obj_clean(lv_scr_act());
 
@@ -76,14 +77,8 @@ int main(void)
 				K_SECONDS(CONFIG_APP_MAIN_LOOP_PERIOD_SEC));
 
 		if (events & SCREEN_TOGGLE_EVENT) {
-			if (screen_is_ready) {
-				lv_label_set_text(hello_world_label, "Cleaning...");
-				screen_is_ready = false;
-			}
-			else {
-				lv_label_set_text(hello_world_label, "Ready!");
-				screen_is_ready = true;
-			}
+			screen_text_pos ^= 1;
+			lv_label_set_text(label, label_texts[screen_text_pos]);
 
 			lv_task_handler();
 		}
