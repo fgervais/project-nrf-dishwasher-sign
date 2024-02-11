@@ -57,8 +57,11 @@ int main(void)
 
 	hello_world_label = lv_label_create(lv_scr_act());
 
-	lv_label_set_text(hello_world_label, "Hello world!");
-	lv_obj_align(hello_world_label, LV_ALIGN_CENTER, 0, 0);
+	// lv_label_set_text(hello_world_label, "Ready!");
+	lv_label_set_text(hello_world_label, "Cleaning...");
+	lv_obj_align(hello_world_label, LV_ALIGN_CENTER, 0, -10);
+
+	// lv_obj_clean(lv_scr_act());
 
 	lv_task_handler();
 	display_blanking_off(display_dev);
