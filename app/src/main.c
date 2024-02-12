@@ -39,6 +39,7 @@ int main(void)
 	int main_wdt_chan_id = -1;
 	int screen_text_pos = 0;
 	const char *label_texts[] = {"Ready!", "Cleaning..."};
+	k_timepoint_t screen_refresh_timepoint;
 
 
 	init_watchdog(wdt, &main_wdt_chan_id);
@@ -66,6 +67,7 @@ int main(void)
 
 	lv_task_handler();
 	display_blanking_off(display_dev);
+	screen_refresh_timepoint = sys_timepoint_calc(K_HOURS(12));
 
 	thread_analyzer_print();
 
@@ -79,8 +81,15 @@ int main(void)
 		if (events & SCREEN_TOGGLE_EVENT) {
 			screen_text_pos ^= 1;
 			lv_label_set_text(label, label_texts[screen_text_pos]);
-
 			lv_task_handler();
+			screen_refresh_timepoint = sys_timepoint_calc(
+							K_HOURS(12));
+		}
+		else if (sys_timepoint_expired(screen_refresh_timepoint)) {
+			display_blanking_on(display_dev);
+			display_blanking_off(display_dev);
+			screen_refresh_timepoint = sys_timepoint_calc(
+							K_HOURS(12));
 		}
 
 		LOG_INF("🦴 feed watchdog");
