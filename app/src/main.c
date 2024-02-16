@@ -86,6 +86,7 @@ int main(void)
 							K_HOURS(12));
 		}
 		else if (sys_timepoint_expired(screen_refresh_timepoint)) {
+			LOG_INF("🖥️ screen saver refresh");
 			display_blanking_on(display_dev);
 			display_blanking_off(display_dev);
 			screen_refresh_timepoint = sys_timepoint_calc(
