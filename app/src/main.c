@@ -1,4 +1,4 @@
-// #include <lvgl.h>
+#include <lvgl.h>
 #include <zephyr/drivers/display.h>
 #include <zephyr/drivers/gpio.h>
 #include <zephyr/drivers/watchdog.h>
@@ -37,7 +37,7 @@ int main(void)
 	const struct device *gpio1_dev = DEVICE_DT_GET(DT_NODELABEL(gpio1));
 
 	int ret;
-	// lv_obj_t *label;
+	lv_obj_t *label;
 	uint32_t events;
 	int main_wdt_chan_id = -1;
 	int screen_text_pos = 0;
@@ -68,20 +68,21 @@ int main(void)
 	pm_device_action_run(cons, PM_DEVICE_ACTION_SUSPEND);
 #endif
 
-	// label = lv_label_create(lv_scr_act());
+	label = lv_label_create(lv_scr_act());
 
-	// lv_label_set_text(label, label_texts[screen_text_pos]);
-	// lv_obj_align(label, LV_ALIGN_CENTER, 0, -10);
+	lv_label_set_text(label, label_texts[screen_text_pos]);
+	lv_obj_align(label, LV_ALIGN_CENTER, 0, -10);
 
-	// // lv_obj_clean(lv_scr_act());
+	// lv_obj_clean(lv_scr_act());
 
-	// lv_task_handler();
+	lv_task_handler();
 	display_blanking_off(display_dev);
 	screen_refresh_timepoint = sys_timepoint_calc(K_HOURS(12));
 
 
 
 
+	k_sleep(K_SECONDS(6));
 
 	gpio_pin_set(gpio1_dev, 14, 1);
 	// gpio_pin_set_dt(&config->reset_gpio, 1);
