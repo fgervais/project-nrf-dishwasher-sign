@@ -84,8 +84,11 @@ int main(void)
 
 	k_sleep(K_SECONDS(6));
 
-	gpio_pin_set(gpio1_dev, 14, 1);
-	// gpio_pin_set_dt(&config->reset_gpio, 1);
+	// GPIO_DT_SPEC_GET(n, reset_gpios)
+	struct gpio_dt_spec display_reset_gpio = GPIO_DT_SPEC_GET(
+		DT_CHOSEN(zephyr_display), reset_gpios);
+	// gpio_pin_set(gpio1_dev, 14, 1);
+	gpio_pin_set_dt(&display_reset_gpio, 1);
 
 	ret = pm_device_action_run(display_bus_dev, PM_DEVICE_ACTION_SUSPEND);
 	if (ret < 0) {
