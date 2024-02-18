@@ -33,7 +33,8 @@ int main(void)
 	const struct device *cons = DEVICE_DT_GET(DT_CHOSEN(zephyr_console));
 #endif
 	// const struct device *display_dev = DEVICE_DT_GET(DT_CHOSEN(zephyr_display));
-	// const struct device *display_bus_dev = DEVICE_DT_GET(DT_NODELABEL(spi0));
+	const struct device *display_bus_dev = DEVICE_DT_GET(DT_NODELABEL(spi0));
+	const struct device *gpio1_dev = DEVICE_DT_GET(DT_NODELABEL(gpio1));
 
 	int ret;
 	// lv_obj_t *label;
@@ -61,11 +62,15 @@ int main(void)
 	// 	LOG_ERR("Could not suspend the display");
 	// 	// return ret;
 	// }
-	// ret = pm_device_action_run(display_bus_dev, PM_DEVICE_ACTION_SUSPEND);
-	// if (ret < 0) {
-	// 	LOG_ERR("Could not suspend the display bus");
-	// 	// return ret;
-	// }
+
+	gpio_pin_set(gpio1_dev, 14, 1);
+	// gpio_pin_set_dt(&config->reset_gpio, 1);
+
+	ret = pm_device_action_run(display_bus_dev, PM_DEVICE_ACTION_SUSPEND);
+	if (ret < 0) {
+		LOG_ERR("Could not suspend the display bus");
+		// return ret;
+	}
 
 #if defined(CONFIG_APP_SUSPEND_CONSOLE)
 	k_sleep(K_SECONDS(3));

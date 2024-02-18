@@ -48,31 +48,31 @@
 
 	cs-gpios = <&gpio1 13 GPIO_ACTIVE_LOW>;
 
-	// display: ssd1680@0 {
-	// 	compatible = "solomon,ssd1680";
+	display: ssd1680@0 {
+		compatible = "solomon,ssd1680";
 
-	// 	// spi-max-frequency = <4000000>;
-	// 	spi-max-frequency = <20000000>;
-	// 	// duplex = <SPI_HALF_DUPLEX>;
-	// 	reg = <0>;
+		// spi-max-frequency = <4000000>;
+		spi-max-frequency = <20000000>;
+		// duplex = <SPI_HALF_DUPLEX>;
+		reg = <0>;
 
-	// 	dc-gpios = <&gpio0 3 GPIO_ACTIVE_LOW>;
-	// 	reset-gpios = <&gpio1 14 GPIO_ACTIVE_LOW>;
-	// 	busy-gpios = <&gpio1 10 GPIO_ACTIVE_HIGH>;
+		dc-gpios = <&gpio0 3 GPIO_ACTIVE_LOW>;
+		reset-gpios = <&gpio1 14 GPIO_ACTIVE_LOW>;
+		busy-gpios = <&gpio1 10 GPIO_ACTIVE_HIGH>;
 
-	// 	// orientation-flipped;
+		// orientation-flipped;
 
-	// 	/* Enable the built-in temperature sensor */
-	// 	tssv = <0x80>;
+		/* Enable the built-in temperature sensor */
+		tssv = <0x80>;
 
-	// 	width = <296>;
-	// 	// There might be a bug in the buffer size allocation where if we
-	// 	// use 128 some random is left at the beginning of the screen.
-	// 	height = <129>;
+		width = <296>;
+		// There might be a bug in the buffer size allocation where if we
+		// use 128 some random is left at the beginning of the screen.
+		height = <129>;
 
-	// 	full {
-	// 	};
-	// };
+		full {
+		};
+	};
 };
 &spi1 {
 	status = "disabled";
