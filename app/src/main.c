@@ -1,4 +1,4 @@
-#include <lvgl.h>
+// #include <lvgl.h>
 #include <zephyr/drivers/display.h>
 #include <zephyr/drivers/gpio.h>
 #include <zephyr/drivers/watchdog.h>
@@ -32,9 +32,11 @@ int main(void)
 #if defined(CONFIG_APP_SUSPEND_CONSOLE)
 	const struct device *cons = DEVICE_DT_GET(DT_CHOSEN(zephyr_console));
 #endif
-	const struct device *display_dev = DEVICE_DT_GET(DT_CHOSEN(zephyr_display));
+	// const struct device *display_dev = DEVICE_DT_GET(DT_CHOSEN(zephyr_display));
+	// const struct device *display_bus_dev = DEVICE_DT_GET(DT_NODELABEL(spi0));
 
-	lv_obj_t *label;
+	int ret;
+	// lv_obj_t *label;
 	uint32_t events;
 	int main_wdt_chan_id = -1;
 	int screen_text_pos = 0;
@@ -54,19 +56,33 @@ int main(void)
 
 	LOG_INF("🎉 init done 🎉");
 
+	// ret = pm_device_action_run(display_dev, PM_DEVICE_ACTION_SUSPEND);
+	// if (ret < 0) {
+	// 	LOG_ERR("Could not suspend the display");
+	// 	// return ret;
+	// }
+	// ret = pm_device_action_run(display_bus_dev, PM_DEVICE_ACTION_SUSPEND);
+	// if (ret < 0) {
+	// 	LOG_ERR("Could not suspend the display bus");
+	// 	// return ret;
+	// }
+
 #if defined(CONFIG_APP_SUSPEND_CONSOLE)
+	k_sleep(K_SECONDS(3));
 	pm_device_action_run(cons, PM_DEVICE_ACTION_SUSPEND);
 #endif
 
-	label = lv_label_create(lv_scr_act());
+	return 0;
 
-	lv_label_set_text(label, label_texts[screen_text_pos]);
-	lv_obj_align(label, LV_ALIGN_CENTER, 0, -10);
+	// label = lv_label_create(lv_scr_act());
 
-	// lv_obj_clean(lv_scr_act());
+	// lv_label_set_text(label, label_texts[screen_text_pos]);
+	// lv_obj_align(label, LV_ALIGN_CENTER, 0, -10);
 
-	lv_task_handler();
-	display_blanking_off(display_dev);
+	// // lv_obj_clean(lv_scr_act());
+
+	// lv_task_handler();
+	// display_blanking_off(display_dev);
 	screen_refresh_timepoint = sys_timepoint_calc(K_HOURS(12));
 
 	thread_analyzer_print();
@@ -78,20 +94,20 @@ int main(void)
 				true,
 				K_SECONDS(CONFIG_APP_MAIN_LOOP_PERIOD_SEC));
 
-		if (events & SCREEN_TOGGLE_EVENT) {
-			screen_text_pos ^= 1;
-			lv_label_set_text(label, label_texts[screen_text_pos]);
-			lv_task_handler();
-			screen_refresh_timepoint = sys_timepoint_calc(
-							K_HOURS(12));
-		}
-		else if (sys_timepoint_expired(screen_refresh_timepoint)) {
-			LOG_INF("🖥️ screen saver refresh");
-			display_blanking_on(display_dev);
-			display_blanking_off(display_dev);
-			screen_refresh_timepoint = sys_timepoint_calc(
-							K_HOURS(12));
-		}
+		// if (events & SCREEN_TOGGLE_EVENT) {
+		// 	screen_text_pos ^= 1;
+		// 	lv_label_set_text(label, label_texts[screen_text_pos]);
+		// 	lv_task_handler();
+		// 	screen_refresh_timepoint = sys_timepoint_calc(
+		// 					K_HOURS(12));
+		// }
+		// else if (sys_timepoint_expired(screen_refresh_timepoint)) {
+		// 	LOG_INF("🖥️ screen saver refresh");
+		// 	display_blanking_on(display_dev);
+		// 	display_blanking_off(display_dev);
+		// 	screen_refresh_timepoint = sys_timepoint_calc(
+		// 					K_HOURS(12));
+		// }
 
 		LOG_INF("🦴 feed watchdog");
 		wdt_feed(wdt, main_wdt_chan_id);
