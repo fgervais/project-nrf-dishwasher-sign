@@ -55,18 +55,6 @@ int main(void)
 		module_set_state(MODULE_STATE_READY);
 	}
 
-	LOG_INF("🎉 init done 🎉");
-
-	// ret = pm_device_action_run(display_dev, PM_DEVICE_ACTION_SUSPEND);
-	// if (ret < 0) {
-	// 	LOG_ERR("Could not suspend the display");
-	// 	// return ret;
-	// }
-
-#if defined(CONFIG_APP_SUSPEND_CONSOLE)
-	k_sleep(K_SECONDS(3));
-	pm_device_action_run(cons, PM_DEVICE_ACTION_SUSPEND);
-#endif
 
 	label = lv_label_create(lv_scr_act());
 
@@ -84,17 +72,33 @@ int main(void)
 
 	k_sleep(K_SECONDS(6));
 
-	// GPIO_DT_SPEC_GET(n, reset_gpios)
-	struct gpio_dt_spec display_reset_gpio = GPIO_DT_SPEC_GET(
-		DT_CHOSEN(zephyr_display), reset_gpios);
-	// gpio_pin_set(gpio1_dev, 14, 1);
-	gpio_pin_set_dt(&display_reset_gpio, 1);
+	// // GPIO_DT_SPEC_GET(n, reset_gpios)
+	// struct gpio_dt_spec display_reset_gpio = GPIO_DT_SPEC_GET(
+	// 	DT_CHOSEN(zephyr_display), reset_gpios);
+	// // gpio_pin_set(gpio1_dev, 14, 1);
+	// gpio_pin_set_dt(&display_reset_gpio, 1);
+
+
+	ret = pm_device_action_run(display_dev, PM_DEVICE_ACTION_SUSPEND);
+	if (ret < 0) {
+		LOG_ERR("Could not suspend the display");
+		return ret;
+	}
 
 	ret = pm_device_action_run(display_bus_dev, PM_DEVICE_ACTION_SUSPEND);
 	if (ret < 0) {
 		LOG_ERR("Could not suspend the display bus");
-		// return ret;
+		return ret;
 	}
+
+
+
+	LOG_INF("🎉 init done 🎉");
+
+#if defined(CONFIG_APP_SUSPEND_CONSOLE)
+	k_sleep(K_SECONDS(3));
+	pm_device_action_run(cons, PM_DEVICE_ACTION_SUSPEND);
+#endif
 
 	return 0;
 
