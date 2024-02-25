@@ -47,7 +47,7 @@ int suspend_display(const struct device *display_dev,
 }
 
 int resume_display(const struct device *display_dev,
-		    const struct device *display_bus_dev)
+		   const struct device *display_bus_dev)
 {
 	int ret;
 
