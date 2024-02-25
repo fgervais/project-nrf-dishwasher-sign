@@ -101,7 +101,6 @@ int main(void)
 	// lv_obj_clean(lv_scr_act());
 
 	lv_task_handler();
-	display_blanking_off(display_dev);
 	screen_refresh_timepoint = sys_timepoint_calc(K_HOURS(12));
 
 	suspend_display(display_dev, display_bus_dev);
