@@ -104,7 +104,6 @@ int main(void)
 	display_blanking_off(display_dev);
 	screen_refresh_timepoint = sys_timepoint_calc(K_HOURS(12));
 
-	k_sleep(K_SECONDS(6));
 	suspend_display(display_dev, display_bus_dev);
 
 	LOG_INF("🎉 init done 🎉");
@@ -132,7 +131,6 @@ int main(void)
 			screen_refresh_timepoint = sys_timepoint_calc(
 							K_HOURS(12));
 
-			k_sleep(K_SECONDS(6));
 			suspend_display(display_dev, display_bus_dev);
 		}
 		else if (sys_timepoint_expired(screen_refresh_timepoint)) {
@@ -144,7 +142,6 @@ int main(void)
 			screen_refresh_timepoint = sys_timepoint_calc(
 							K_HOURS(12));
 
-			k_sleep(K_SECONDS(6));
 			suspend_display(display_dev, display_bus_dev);
 		}
 
