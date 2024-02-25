@@ -73,7 +73,8 @@ int main(void)
 	const struct device *cons = DEVICE_DT_GET(DT_CHOSEN(zephyr_console));
 #endif
 	const struct device *display_dev = DEVICE_DT_GET(DT_CHOSEN(zephyr_display));
-	const struct device *display_bus_dev = DEVICE_DT_GET(DT_NODELABEL(spi0));
+	const struct device *display_bus_dev = DEVICE_DT_GET(
+		DT_PARENT(DT_CHOSEN(zephyr_display)));
 
 	lv_obj_t *label;
 	uint32_t events;
