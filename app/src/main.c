@@ -137,8 +137,8 @@ int main(void)
 			resume_display(display_dev, display_bus_dev);
 
 			LOG_INF("🖥️ screen saver refresh");
-			display_blanking_on(display_dev);
-			display_blanking_off(display_dev);
+			lv_obj_invalidate(lv_scr_act());
+			lv_task_handler();
 			screen_refresh_timepoint = sys_timepoint_calc(
 							K_HOURS(12));
 
