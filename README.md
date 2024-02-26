@@ -105,3 +105,9 @@ expected to last a long time.
 
 \frac{12600 \, C}{31.64 \times 10^-3 \, C} = 398 \times 10^-3 \, refreshes
 ```
+
+Note that the project will refresh the screen twice a day to comply with the
+display guidelines.
+
+On 10 years, that would be about 7305 refreshes.
+ 
