@@ -1,7 +1,14 @@
 # Table of Contents
 
+- [Overview](#overview)
 - [Project Management](#project-management)
 - [Battery Life](#battery-life)
+
+# Overview
+
+## Internal
+
+![Internal View](assets/img/internal-view.jpg)
 
 # Project Management
 
@@ -110,4 +117,3 @@ Note that the project will refresh the screen twice a day to comply with the
 display guidelines.
 
 On 10 years, that would be about 7305 refreshes.
- 
