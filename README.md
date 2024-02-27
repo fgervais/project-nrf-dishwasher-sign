@@ -97,12 +97,26 @@ expected to last a long time.
 
 ### Idle all the time
 
+Idle means the CPU idle current plus 1 screen refresh every 12 hours.
+
+Idle consumption per day:
 ```math
-\frac{12600 \, C}{2.28 \times 10^-6 \, \frac{C}{s}} = 5.5 \times 10^9 \, s
+2.28 \times 10^-6 \, \frac{C}{s} \times (60 \times 60 \times 24) = 197 \times 10^-3 \frac{C}{day}
 ```
 
+Automatic refresh consumption per day:
 ```math
-5.5 \times 10^9 \, seconds \times \frac{1 \, minute}{60 \, second} \times \frac{1 \, hour}{60 \, minute} \times \frac{1 \, day}{24 \, hour} \times \frac{1 \, year}{365.25 \, days} = 175 \, years
+31.64 \times 10^-3 \, C \times 2 = 63.28 \times 10^-3 \, C
+```
+
+Total per day:
+```math
+197 \times 10^-3 \frac{C}{day} + 63.28 \times 10^-3 \, \frac{C}{day} = 260.28 \times 10^-3 \, \frac{C}{day}
+```
+
+Runtime:
+```math
+12600 \, C \div 260.28 \times 10^-3 \, \frac{C}{day} = 48410 \, days = 132 \, years
 ```
 
 ### Refreshing all the time
@@ -110,10 +124,5 @@ expected to last a long time.
 ```math
 12600 \, C \div 233.14 \times 10^-3 \, \frac{C}{day} = 3474 \, days = 9.51 \, years
 
-\frac{12600 \, C}{31.64 \times 10^-3 \, C} = 398 \times 10^-3 \, refreshes
+\frac{12600 \, C}{31.64 \times 10^-3 \, C} = 398 \times 10^3 \, refreshes
 ```
-
-Note that the project will refresh the screen twice a day to comply with the
-display guidelines.
-
-On 10 years, that would be about 7305 refreshes.
