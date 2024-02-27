@@ -122,7 +122,5 @@ Runtime:
 ### Refreshing all the time
 
 ```math
-12600 \, C \div 233.14 \times 10^-3 \, \frac{C}{day} = 3474 \, days = 9.51 \, years
-
 \frac{12600 \, C}{31.64 \times 10^-3 \, C} = 398 \times 10^3 \, refreshes
 ```
