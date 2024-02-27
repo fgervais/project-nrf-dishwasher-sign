@@ -68,7 +68,7 @@ pyocd flash -e sector -t nrf52840 -f 4000000 build/zephyr/zephyr.hex
 
 ## Power consumption
 
-- 3.3v
+- Vcc = 3.3v
 - Internal DC/DC converter
 
 ### Idle
