@@ -97,7 +97,7 @@ int main(void)
 	label = lv_label_create(lv_scr_act());
 
 	lv_label_set_text(label, label_texts[screen_text_pos]);
-	lv_obj_align(label, LV_ALIGN_CENTER, 0, -10);
+	lv_obj_align(label, LV_ALIGN_CENTER, 0, 10);
 
 	// lv_obj_clean(lv_scr_act());
 

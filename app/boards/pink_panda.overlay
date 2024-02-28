@@ -60,7 +60,7 @@
 		reset-gpios = <&gpio1 14 GPIO_ACTIVE_LOW>;
 		busy-gpios = <&gpio1 10 GPIO_ACTIVE_HIGH>;
 
-		// orientation-flipped;
+		orientation-flipped;
 
 		/* Enable the built-in temperature sensor */
 		tssv = <0x80>;
