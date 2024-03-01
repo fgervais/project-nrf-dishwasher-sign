@@ -6,6 +6,8 @@
 
 # Overview
 
+![Overview](assets/img/overview.jpg)
+
 ## Internal
 
 ![Internal View](assets/img/internal-view.jpg)
